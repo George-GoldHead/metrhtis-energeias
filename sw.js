@@ -2,6 +2,8 @@ const CACHE = 'metrhtis-v1';
 const FILES = [
   './energy_tracker.html',
   './manifest.json'
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 self.addEventListener('install', e => {
