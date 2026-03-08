@@ -2,7 +2,7 @@
   "name": "Μετρητής Ενέργειας",
   "short_name": "Μετρητής",
   "description": "Παρακολούθηση κατανάλωσης αερίου και ρεύματος",
-  "start_url": "./energy_tracker.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0d0f18",
   "theme_color": "#0d0f18",
