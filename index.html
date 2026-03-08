@@ -22,15 +22,12 @@
     --danger: #ef4444;
     --mono: 'IBM Plex Mono', monospace;
     --sans: 'IBM Plex Sans', sans-serif;
-    /* Gas */
     --gas: #e11d48;
     --gas-dim: rgba(225,29,72,0.15);
     --gas-glow: rgba(225,29,72,0.3);
-    /* Electric */
     --elec: #60a5fa;
     --elec-dim: rgba(96,165,250,0.15);
     --elec-glow: rgba(96,165,250,0.3);
-    /* Provider */
     --prov: #34d399;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,219 +36,229 @@
   /* ── TOP BAR ─────────────────────────────────── */
   .topbar {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 24px; border-bottom: 1px solid var(--border);
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
     position: sticky; top: 0; background: var(--bg); z-index: 50;
+    gap: 8px;
   }
-  .app-logo { font-family: var(--mono); font-size: 0.95rem; letter-spacing: 0.12em; color: var(--text); display: flex; align-items: center; gap: 10px; }
-  .topbar-actions { display: flex; gap: 8px; align-items: center; }
+  .app-logo { font-family: var(--mono); font-size: 0.9rem; letter-spacing: 0.1em; color: var(--text); display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .topbar-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
   .icon-btn {
     background: var(--surface); border: 1px solid var(--border);
-    color: var(--muted); border-radius: 8px; padding: 7px 12px;
-    cursor: pointer; font-family: var(--mono); font-size: 0.7rem;
-    letter-spacing: 0.05em; transition: all 0.15s; display: flex; align-items: center; gap: 6px;
+    color: var(--muted); border-radius: 8px; padding: 8px 12px;
+    cursor: pointer; font-family: var(--mono); font-size: 0.72rem;
+    letter-spacing: 0.04em; transition: all 0.15s; display: flex; align-items: center; gap: 6px;
+    white-space: nowrap;
   }
   .icon-btn:hover { border-color: var(--text); color: var(--text); }
   .icon-btn.danger:hover { border-color: var(--danger); color: var(--danger); }
   #importFile { display: none; }
 
   /* ── TABS ────────────────────────────────────── */
-  .tabs { display: flex; padding: 0 24px; border-bottom: 1px solid var(--border); gap: 4px; }
+  .tabs { display: flex; padding: 0 16px; border-bottom: 1px solid var(--border); gap: 4px; }
   .tab {
-    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em;
+    font-family: var(--mono); font-size: 0.82rem; letter-spacing: 0.06em;
     padding: 14px 20px; cursor: pointer; border-bottom: 2px solid transparent;
     color: var(--muted); transition: all 0.15s; display: flex; align-items: center; gap: 8px;
-    margin-bottom: -1px;
+    margin-bottom: -1px; flex: 1; justify-content: center;
   }
   .tab:hover { color: var(--text); }
   .tab.active.gas { color: var(--gas); border-bottom-color: var(--gas); }
   .tab.active.elec { color: var(--elec); border-bottom-color: var(--elec); }
 
   /* ── MAIN CONTENT ────────────────────────────── */
-  .content { width: 100%; padding: 24px 24px 0; }
+  .content { width: 100%; padding: 16px 16px 0; }
   .panel { display: none; }
   .panel.active { display: block; }
 
   /* ── SUMMARY CARDS ───────────────────────────── */
-  .summary { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; max-width: 900px; }
+  .summary { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
   .scard {
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; padding: 18px 20px; position: relative; overflow: hidden;
+    border-radius: 12px; padding: 16px; position: relative; overflow: hidden;
   }
   .scard::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
   .scard.provider-card::before { background: var(--prov); }
   .scard.year-card::before { background: var(--gas); }
   .scard.year-card.elec::before { background: var(--elec); }
-  .scard-label { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
-  .scard-value { font-family: var(--mono); font-size: 1.55rem; font-weight: 600; line-height: 1; margin-bottom: 5px; }
+  .scard-label { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .scard-value { font-family: var(--mono); font-size: 1.3rem; font-weight: 600; line-height: 1; margin-bottom: 4px; }
   .scard.provider-card .scard-value { color: var(--prov); }
   .scard.year-card .scard-value { color: var(--gas); }
   .scard.year-card.elec .scard-value { color: var(--elec); }
-  .scard-sub { font-size: 0.72rem; color: var(--muted); }
+  .scard-sub { font-size: 0.7rem; color: var(--muted); }
 
   /* ── PERIOD ROW ──────────────────────────────── */
   .period-row {
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; padding: 13px 18px; margin-bottom: 24px;
-    display: flex; align-items: center; flex-wrap: wrap; gap: 10px; max-width: 900px;
+    border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;
   }
-  .period-label { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
-  .period-selects { display: flex; align-items: center; gap: 8px; flex: 1; flex-wrap: wrap; }
+  .period-label { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+  .period-selects { display: flex; align-items: center; gap: 8px; }
+  .period-selects select { flex: 1; }
   select {
-    font-family: var(--mono); font-size: 0.75rem;
+    font-family: var(--mono); font-size: 0.8rem;
     background: var(--surface2); color: var(--text);
     border: 1px solid var(--border); border-radius: 6px;
-    padding: 6px 10px; cursor: pointer; outline: none;
+    padding: 8px 10px; cursor: pointer; outline: none;
+    width: 100%;
   }
   select:focus { border-color: var(--prov); }
 
+  /* ── TOOLBAR ROW ─────────────────────────────── */
+  .toolbar-row {
+    display: flex; justify-content: flex-end; gap: 8px;
+    margin-bottom: 16px; flex-wrap: wrap;
+  }
+
   /* ── YEAR SECTION ────────────────────────────── */
-  .year-section { margin-bottom: 32px; }
-  .year-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .year-section { margin-bottom: 28px; }
+  .year-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
   .year-title { font-family: var(--mono); font-size: 1rem; font-weight: 600; letter-spacing: 0.1em; }
   .year-title.gas { color: var(--gas); }
   .year-title.elec { color: var(--elec); }
-  .year-total { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); background: var(--surface); border: 1px solid var(--border); padding: 3px 12px; border-radius: 20px; }
+  .year-total { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); background: var(--surface); border: 1px solid var(--border); padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
   .year-line { flex: 1; height: 1px; background: var(--border); }
 
-  /* ── MONTHS GRID ─────────────────────────────── */
-  .months-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  @media (max-width: 600px) { .months-grid { grid-template-columns: 1fr; } .summary { grid-template-columns: 1fr; } }
-
-  /* ── MONTH CARD ──────────────────────────────── */
-  /* ── MONTHS ROW ──────────────────────────────────────── */
-  .months-row { display: flex; flex-direction: row; gap: 14px; overflow-x: auto; padding-bottom: 10px; width: 100%; }
-  .months-row::-webkit-scrollbar { height: 5px; }
+  /* ── MONTHS SCROLL ───────────────────────────── */
+  .months-row {
+    display: flex; flex-direction: row; gap: 12px;
+    overflow-x: auto; padding-bottom: 12px; width: 100%;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .months-row::-webkit-scrollbar { height: 4px; }
   .months-row::-webkit-scrollbar-track { background: var(--surface); border-radius: 10px; }
   .months-row::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-  .month-card { min-width: 180px; max-width: 180px; flex-shrink: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-  .month-head { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--border); background: var(--surface2); }
-  .month-name { font-family: var(--mono); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); }
-  .month-total { font-family: var(--mono); font-size: 0.6rem; background: var(--surface); border: 1px solid var(--border); color: var(--prov); padding: 1px 7px; border-radius: 20px; }
+
+  /* ── MONTH CARD ──────────────────────────────── */
+  .month-card {
+    /* On mobile: full viewport width minus padding */
+    min-width: calc(100vw - 44px);
+    max-width: calc(100vw - 44px);
+    flex-shrink: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+    scroll-snap-align: start;
+  }
+
+  /* On larger screens: fixed card width */
+  @media (min-width: 600px) {
+    .month-card { min-width: 260px; max-width: 260px; }
+  }
+
+  .month-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 14px; border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .month-name { font-family: var(--mono); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); }
+  .month-total { font-family: var(--mono); font-size: 0.68rem; background: var(--surface); border: 1px solid var(--border); color: var(--prov); padding: 2px 8px; border-radius: 20px; }
+
   table { width: 100%; border-collapse: collapse; }
   thead tr { border-bottom: 1px solid var(--border); }
-  th { font-family: var(--mono); font-size: 0.58rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 10px; text-align: left; font-weight: 400; }
+  th { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 12px; text-align: left; font-weight: 400; }
   tbody tr { border-bottom: 1px solid rgba(42,47,74,0.5); transition: background 0.1s; }
   tbody tr:last-child { border-bottom: none; }
   tbody tr:hover { background: var(--surface2); }
   tbody tr.prov-row { background: rgba(52,211,153,0.05); }
-  tbody tr.prov-row td:first-child { border-left: 2px solid var(--prov); padding-left: 8px; }
-  td { font-family: var(--mono); font-size: 0.72rem; padding: 5px 8px; }
-  .td-date { color: var(--muted); font-size: 0.7rem; }
+  tbody tr.prov-row td:first-child { border-left: 2px solid var(--prov); padding-left: 10px; }
+  td { font-family: var(--mono); font-size: 0.8rem; padding: 7px 12px; }
+  .td-date { color: var(--muted); font-size: 0.78rem; }
   .td-diff { font-weight: 600; }
   .td-diff.gas { color: var(--gas); }
   .td-diff.elec { color: var(--elec); }
   .td-diff.zero { color: var(--muted); font-weight: 400; }
-  .prov-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--prov); margin-right: 4px; vertical-align: middle; }
-  .del-btn { background: none; border: none; color: var(--border); cursor: pointer; font-size: 0.82rem; padding: 2px 5px; border-radius: 4px; transition: all 0.15s; }
+  .prov-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--prov); margin-right: 4px; vertical-align: middle; }
+  .del-btn { background: none; border: none; color: var(--border); cursor: pointer; font-size: 0.9rem; padding: 4px 6px; border-radius: 4px; transition: all 0.15s; }
   .del-btn:hover { color: var(--danger); background: rgba(239,68,68,0.1); }
 
   /* ── FAB ─────────────────────────────────────── */
   .fab {
-    position: fixed; bottom: 28px; right: 28px;
-    width: 54px; height: 54px; border-radius: 50%;
-    border: none; font-size: 1.5rem; cursor: pointer;
+    position: fixed; bottom: 24px; right: 20px;
+    width: 58px; height: 58px; border-radius: 50%;
+    border: none; font-size: 1.6rem; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: transform 0.15s, box-shadow 0.15s; z-index: 100;
   }
-  .fab.gas { background: var(--gas); color: #000; box-shadow: 0 4px 20px var(--gas-glow); }
+  .fab.gas { background: var(--gas); color: #fff; box-shadow: 0 4px 20px var(--gas-glow); }
   .fab.elec { background: var(--elec); color: #000; box-shadow: 0 4px 20px var(--elec-glow); }
-  .fab:hover { transform: scale(1.08); }
+  .fab:active { transform: scale(0.94); }
 
   /* ── MODALS ──────────────────────────────────── */
-  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 200; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; align-items: flex-end; justify-content: center; backdrop-filter: blur(4px); }
   .overlay.open { display: flex; }
-  .modal { background: #ffffff; border-radius: 16px; padding: 26px; width: 90%; max-width: 340px; box-shadow: 0 24px 80px rgba(0,0,0,0.5); border: none; }
-.modal.gas-modal { box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 2px rgba(225,29,72,0.25); }
-.modal.elec-modal { box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 2px rgba(96,165,250,0.25); }
-.modal.settings-modal { box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 2px rgba(52,211,153,0.2); }
-  .modal-title { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-  .modal-title.gas { color: var(--gas); }
-  .modal .modal-title { color: #1e293b; }
+
+  @media (min-width: 500px) {
+    .overlay { align-items: center; }
+    .modal { border-radius: 16px !important; }
+  }
+
+  .modal {
+    background: #ffffff; border-radius: 20px 20px 0 0; padding: 24px 20px 32px;
+    width: 100%; max-width: 420px;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.4);
+  }
+  .modal.gas-modal { box-shadow: 0 -8px 40px rgba(0,0,0,0.4), 0 0 0 2px rgba(225,29,72,0.2); }
+  .modal.elec-modal { box-shadow: 0 -8px 40px rgba(0,0,0,0.4), 0 0 0 2px rgba(96,165,250,0.2); }
+  .modal.settings-modal { box-shadow: 0 -8px 40px rgba(0,0,0,0.4), 0 0 0 2px rgba(52,211,153,0.15); max-width: 420px; }
+
+  /* Drag handle */
+  .modal::before {
+    content: ''; display: block; width: 40px; height: 4px;
+    background: #cbd5e1; border-radius: 2px;
+    margin: 0 auto 20px; 
+  }
+
+  .modal-title { font-family: var(--mono); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; color: #1e293b; }
   .modal .modal-title.gas { color: var(--gas); }
   .modal .modal-title.elec { color: var(--elec); }
-  .modal .modal-title.settings { color: var(--prov); }
-  .modal-title.elec { color: var(--elec); }
-  .modal-title.settings { color: var(--prov); }
-  .field { margin-bottom: 13px; }
-  .field label { display: block; font-family: var(--mono); font-size: 0.58rem; color: #64748b; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+  .modal .modal-title.settings { color: #0f766e; }
+
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-family: var(--mono); font-size: 0.62rem; color: #64748b; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
   .input-wrap { position: relative; }
-  .input-wrap .ico { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 0.75rem; font-weight: 700; pointer-events: none; font-family: var(--mono); letter-spacing: 0.05em; }
+  .input-wrap .ico { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 0.78rem; font-weight: 700; pointer-events: none; font-family: var(--mono); letter-spacing: 0.04em; color: #94a3b8; }
   .input-wrap.gas .ico { color: var(--gas); }
   .input-wrap.elec .ico { color: var(--elec); }
-  .modal .input-wrap .ico { color: #0f172a; }
   .input-wrap .ico-date::after { content: 'ΗΜ'; }
   .input-wrap .ico-time::after { content: 'ΩΡΑ'; }
+
   input[type="date"], input[type="time"], input[type="number"], input[type="text"] {
-    width: 100%; font-family: var(--mono); font-size: 0.88rem;
+    width: 100%; font-family: var(--mono); font-size: 1rem;
     background: #f8fafc; color: #0f172a;
-    border: 1px solid #e2e8f0; border-radius: 7px;
-    padding: 9px 50px 9px 11px; outline: none; transition: border-color 0.15s;
+    border: 1px solid #e2e8f0; border-radius: 10px;
+    padding: 12px 50px 12px 14px; outline: none; transition: border-color 0.15s;
+    -webkit-appearance: none;
   }
-  input:focus { border-color: var(--prov); }
-  .modal input { color: #0f172a; background: #f8fafc; border-color: #e2e8f0; }
-  .modal input:focus { border-color: var(--prov); }
+  input:focus { border-color: #34d399; box-shadow: 0 0 0 3px rgba(52,211,153,0.15); }
   input[type="date"]::-webkit-calendar-picker-indicator,
   input[type="time"]::-webkit-calendar-picker-indicator { opacity: 0; position: absolute; right: 0; width: 100%; cursor: pointer; }
-  .checkbox-row { display: flex; align-items: center; gap: 10px; }
-  .checkbox-row input[type="checkbox"] { width: auto; padding: 0; accent-color: var(--prov); }
-  .checkbox-row label { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 6px; }
-  .modal .checkbox-row label { color: #475569; }
-  .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
-  .modal-actions .btn { flex: 1; text-align: center; font-family: var(--mono); font-size: 0.72rem; padding: 10px; border-radius: 7px; border: 1px solid var(--border); cursor: pointer; transition: all 0.15s; }
+
+  .checkbox-row { display: flex; align-items: center; gap: 12px; padding: 4px 0; }
+  .checkbox-row input[type="checkbox"] { width: 20px; height: 20px; padding: 0; accent-color: var(--prov); cursor: pointer; }
+  .checkbox-row label { font-family: var(--mono); font-size: 0.78rem; color: #475569; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+  .modal-actions .btn { flex: 1; text-align: center; font-family: var(--mono); font-size: 0.8rem; padding: 13px; border-radius: 10px; border: 1px solid #e2e8f0; cursor: pointer; transition: all 0.15s; }
   .btn-save.gas { background: var(--gas); color: #fff; border-color: var(--gas); font-weight: 600; }
-  .btn-save.gas:hover { background: #fbbf24; }
-  .btn-save.elec { background: var(--elec); color: #fff; border-color: var(--elec); font-weight: 600; }
-  .btn-save.elec:hover { background: #7dd3fc; }
-  .btn-save.settings { background: var(--prov); color: #000; border-color: var(--prov); font-weight: 600; }
-  .btn-cancel { background: none; color: var(--muted); }
-  .btn-cancel:hover { color: var(--text); border-color: var(--border); }
-  .modal .btn-cancel { color: #64748b; border-color: #e2e8f0; background: #f8fafc; }
-  .modal .btn-cancel:hover { color: #1e293b; border-color: #cbd5e1; }
+  .btn-save.elec { background: var(--elec); color: #000; border-color: var(--elec); font-weight: 600; }
+  .btn-save.settings { background: #0d9488; color: #fff; border-color: #0d9488; font-weight: 600; }
+  .btn-cancel { background: #f8fafc; color: #64748b; border-color: #e2e8f0; }
+  .btn-cancel:hover { color: #1e293b; border-color: #cbd5e1; }
 
   /* Settings sections */
-  .settings-section { margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+  .settings-section { margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid #e2e8f0; }
   .settings-section:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-  .settings-section-title { font-family: var(--mono); font-size: 0.6rem; color: #475569; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; font-weight: 600; }
+  .settings-section-title { font-family: var(--mono); font-size: 0.65rem; color: #64748b; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; font-weight: 600; }
 
-  .empty { text-align: center; color: var(--muted); font-family: var(--mono); font-size: 0.82rem; line-height: 2; padding: 60px 0; }
-
-  /* ── MOBILE RESPONSIVE ───────────────────────────────── */
-  @media (max-width: 768px) {
-    body { padding: 0 0 80px; }
-    .topbar { padding: 10px 14px; flex-wrap: wrap; gap: 8px; }
-    .app-logo { font-size: 0.82rem; }
-    .topbar-actions { gap: 6px; }
-    .icon-btn { font-size: 0.65rem; padding: 6px 10px; }
-    .tabs { padding: 0 14px; }
-    .tab { padding: 12px 14px; font-size: 0.72rem; }
-    .content { padding: 14px 14px 0; }
-    .summary { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-    .scard { padding: 14px; }
-    .scard-value { font-size: 1.2rem; }
-    .period-row { padding: 10px 14px; }
-    select { font-size: 0.7rem; padding: 5px 8px; }
-    .year-title { font-size: 0.85rem; }
-    .month-card { min-width: 150px; max-width: 150px; }
-    .month-name { font-size: 0.6rem; }
-    td { font-size: 0.68rem; padding: 5px 6px; }
-    th { font-size: 0.52rem; padding: 5px 6px; }
-    .fab { width: 50px; height: 50px; font-size: 1.4rem; bottom: 20px; right: 16px; }
-    .modal { padding: 20px; }
-    .modal-title { font-size: 0.75rem; }
-    input[type="date"], input[type="time"], input[type="number"], input[type="text"] { font-size: 0.82rem; padding: 8px 46px 8px 10px; }
-  }
-  @media (max-width: 400px) {
-    .summary { grid-template-columns: 1fr; }
-    .scard-value { font-size: 1.4rem; }
-    .month-card { min-width: 140px; max-width: 140px; }
-  }
+  .empty { text-align: center; color: var(--muted); font-family: var(--mono); font-size: 0.85rem; line-height: 2.2; padding: 60px 0; }
 </style>
 </head>
 <body>
 
 <!-- TOP BAR -->
 <div class="topbar">
-  <div class="app-logo">⚡ ΜΕΤΡΗΤΗΣ ΕΝΕΡΓΕΙΑΣ</div>
+  <div class="app-logo">⚡ ΜΕΤΡΗΤΗΣ</div>
   <div class="topbar-actions">
     <button class="icon-btn" onclick="exportData()">↑ Export</button>
     <label class="icon-btn" for="importFile">↓ Import</label>
@@ -285,11 +292,14 @@
       <div class="period-label">Περίοδος Παρόχου:</div>
       <div class="period-selects">
         <select id="gas-selStart" onchange="renderPanel('gas')"></select>
-        <span style="color:var(--muted)">→</span>
+        <span style="color:var(--muted);font-size:0.9rem">→</span>
         <select id="gas-selEnd" onchange="renderPanel('gas')"></select>
       </div>
     </div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:16px"><button class="icon-btn" id="toggleTime-gas" onclick="toggleTime('gas')">🕐 Εμφάνιση Ώρας</button><button class="icon-btn danger" data-reset-gas onclick="resetTab('gas')">✕ Reset Αερίου</button></div>
+    <div class="toolbar-row">
+      <button class="icon-btn" id="toggleTime-gas" onclick="toggleTime('gas')">🕐 Ώρα</button>
+      <button class="icon-btn danger" data-reset-gas onclick="resetTab('gas')">✕ Reset</button>
+    </div>
     <div id="gas-app"></div>
   </div>
 
@@ -310,11 +320,14 @@
       <div class="period-label">Περίοδος Παρόχου:</div>
       <div class="period-selects">
         <select id="elec-selStart" onchange="renderPanel('elec')"></select>
-        <span style="color:var(--muted)">→</span>
+        <span style="color:var(--muted);font-size:0.9rem">→</span>
         <select id="elec-selEnd" onchange="renderPanel('elec')"></select>
       </div>
     </div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:16px"><button class="icon-btn" id="toggleTime-elec" onclick="toggleTime('elec')">🕐 Εμφάνιση Ώρας</button><button class="icon-btn danger" data-reset-elec onclick="resetTab('elec')">✕ Reset Ρεύματος</button></div>
+    <div class="toolbar-row">
+      <button class="icon-btn" id="toggleTime-elec" onclick="toggleTime('elec')">🕐 Ώρα</button>
+      <button class="icon-btn danger" data-reset-elec onclick="resetTab('elec')">✕ Reset</button>
+    </div>
     <div id="elec-app"></div>
   </div>
 </div>
@@ -343,7 +356,7 @@
     <div class="field">
       <label id="readingLabel">Ένδειξη Μετρητή (m³)</label>
       <div class="input-wrap gas" id="readWrap">
-        <input type="number" id="mRead" step="0.001" placeholder="πχ 5004.584">
+        <input type="number" id="mRead" step="0.001" placeholder="πχ 5004.584" inputmode="decimal">
         <span class="ico" id="readIco">🔥</span>
       </div>
     </div>
@@ -352,7 +365,7 @@
       <label for="mProvider"><span class="prov-dot"></span>Καταμέτρηση Παρόχου</label>
     </div>
     <div class="modal-actions">
-      <button class="btn-save gas" id="btnSave" onclick="addEntry()">Αποθήκευση</button>
+      <button class="btn-save gas btn" id="btnSave" onclick="addEntry()">Αποθήκευση</button>
       <button class="btn-cancel btn" onclick="closeAdd()">Άκυρο</button>
     </div>
   </div>
@@ -360,7 +373,7 @@
 
 <!-- SETTINGS MODAL -->
 <div class="overlay" id="settingsOverlay">
-  <div class="modal settings-modal" style="max-width:380px">
+  <div class="modal settings-modal">
     <div class="modal-title settings">⚙ ΡΥΘΜΙΣΕΙΣ ΠΑΡΟΧΩΝ</div>
     <div class="settings-section">
       <div class="settings-section-title">🔥 <span>ΑΕΡΙΟ</span></div>
@@ -401,7 +414,6 @@ let state = {
   }
 };
 
-// ── PERSIST ──────────────────────────────────────────────────
 function save() {
   try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {}
 }
@@ -411,7 +423,6 @@ function load() {
     const raw = localStorage.getItem(KEY);
     if (raw) { state = JSON.parse(raw); return; }
   } catch(e) {}
-  // Default gas data
   state.gas.data = [
     {id:1,  d:"2026-01-22",t:"08:00",r:4769.458,p:true },
     {id:2,  d:"2026-02-01",t:"08:00",r:4778.321,p:false},
@@ -449,7 +460,6 @@ function load() {
   save();
 }
 
-// ── TABS ─────────────────────────────────────────────────────
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -461,7 +471,6 @@ function switchTab(tab) {
   renderPanel(tab);
 }
 
-// ── SETTINGS ─────────────────────────────────────────────────
 function openSettings() {
   document.getElementById('s-gas-provider').value  = state.settings.gas.provider  || '';
   document.getElementById('s-gas-meter').value     = state.settings.gas.meter     || '';
@@ -478,7 +487,6 @@ function saveSettings() {
   save(); closeSettings();
 }
 
-// ── ADD MODAL ─────────────────────────────────────────────────
 function openAddModal() {
   const tab = currentTab;
   const now = new Date(), pad = n => String(n).padStart(2,'0');
@@ -497,10 +505,9 @@ function openAddModal() {
   document.getElementById('readIco').textContent = isGas ? '🔥' : '⚡';
   document.getElementById('mRead').placeholder = isGas ? 'πχ 5004.584' : 'πχ 12345.6';
   document.getElementById('btnSave').className = 'btn-save btn ' + tab;
-
   document.querySelector('#addOverlay .modal').className = 'modal ' + (tab==='gas'?'gas-modal':'elec-modal');
   document.getElementById('addOverlay').classList.add('open');
-  setTimeout(() => document.getElementById('mRead').focus(), 100);
+  setTimeout(() => document.getElementById('mRead').focus(), 300);
 }
 function closeAdd() { document.getElementById('addOverlay').classList.remove('open'); }
 
@@ -511,7 +518,6 @@ document.getElementById('settingsOverlay').addEventListener('click', e => {
   if (e.target === document.getElementById('settingsOverlay')) closeSettings();
 });
 
-// ── ADD ENTRY ─────────────────────────────────────────────────
 function addEntry() {
   const tab = currentTab;
   const d = document.getElementById('mDate').value;
@@ -523,7 +529,6 @@ function addEntry() {
   save(); closeAdd(); renderPanel(tab);
 }
 
-// ── DELETE ────────────────────────────────────────────────────
 function delEntry(tab, id) {
   const key = tab+'_'+id;
   if (pendingDel === key) {
@@ -537,11 +542,10 @@ function delEntry(tab, id) {
   }
 }
 
-// ── RESET ─────────────────────────────────────────────────────
 function resetTab(tab) {
   const key = 'RESET_'+tab;
   const attr = tab==='gas' ? '[data-reset-gas]' : '[data-reset-elec]';
-  const label = tab==='gas' ? '✕ Reset Αερίου' : '✕ Reset Ρεύματος';
+  const label = '✕ Reset';
   if (pendingDel !== key) {
     pendingDel = key;
     const btn = document.querySelector(attr);
@@ -556,7 +560,6 @@ function resetTab(tab) {
   save(); renderPanel(tab);
 }
 
-// ── EXPORT / IMPORT ───────────────────────────────────────────
 function exportData() {
   const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
@@ -574,7 +577,6 @@ function importData(e) {
   reader.readAsText(file); e.target.value='';
 }
 
-// ── TIME TOGGLE ──────────────────────────────────────────────
 const showTime = { gas: false, elec: false };
 function toggleTime(tab) {
   showTime[tab] = !showTime[tab];
@@ -584,21 +586,19 @@ function toggleTime(tab) {
     btn.style.borderColor = 'var(--prov)';
     btn.style.color = 'var(--prov)';
   } else {
-    btn.textContent = '🕐 Εμφάνιση Ώρας';
+    btn.textContent = '🕐 Ώρα';
     btn.style.borderColor = '';
     btn.style.color = '';
   }
   renderPanel(tab);
 }
 
-// ── RENDER PANEL ──────────────────────────────────────────────
 function renderPanel(tab) {
   const unit = tab === 'gas' ? 'm³' : 'kWh';
   const sorted = [...state[tab].data].sort((a,b) =>
     new Date(a.d+'T'+(a.t||'08:00')) - new Date(b.d+'T'+(b.t||'08:00'))
   );
 
-  // Provider selects
   const selStart = document.getElementById(tab+'-selStart');
   const selEnd   = document.getElementById(tab+'-selEnd');
   const oldStart = selStart.value, oldEnd = selEnd.value;
@@ -623,12 +623,10 @@ function renderPanel(tab) {
   const startDT = new Date(selStart.value);
   const endDT   = new Date(selEnd.value);
 
-  // Compute diffs
   const withDiff = sorted.map((item,idx) => ({
     ...item, diff: +(item.r - (idx>0?sorted[idx-1].r:item.r)).toFixed(3)
   }));
 
-  // Group by year → month
   const years = {};
   withDiff.forEach(item => {
     const dt = new Date(item.d);
@@ -640,7 +638,6 @@ function renderPanel(tab) {
     years[yr][mk].items.push(item);
   });
 
-  // Summaries
   const now = new Date(), curYr = now.getFullYear();
   const beforeEnd   = withDiff.filter(x => new Date(x.d+'T'+(x.t||'08:00')) <= endDT);
   const beforeStart = withDiff.filter(x => new Date(x.d+'T'+(x.t||'08:00')) <= startDT);
@@ -657,7 +654,6 @@ function renderPanel(tab) {
   document.getElementById(tab+'-sumYear').textContent = sumYear.toFixed(3)+' '+unit;
   document.getElementById(tab+'-sumYearLabel').textContent = 'έτος '+curYr;
 
-  // Render
   const app = document.getElementById(tab+'-app');
   if (sorted.length===0) {
     app.innerHTML='<div class="empty">Δεν υπάρχουν μετρήσεις.<br>Πάτα + για να προσθέσεις.</div>';
@@ -678,7 +674,7 @@ function renderPanel(tab) {
           const dt = new Date(item.d);
           return `<tr class="${item.p?'prov-row':''}">
             <td class="td-date">${item.p?'<span class="prov-dot"></span>':''}${dt.getDate()}/${dt.getMonth()+1}</td>
-            ${showTime[tab]?`<td style="color:var(--prov);font-size:0.68rem">${item.t||'—'}</td>`:''}
+            ${showTime[tab]?`<td style="color:var(--prov);font-size:0.75rem">${item.t||'—'}</td>`:''}
             <td>${item.r.toFixed(3)}</td>
             <td class="td-diff ${tab} ${item.diff<=0?'zero':''}">${item.diff>0?item.diff.toFixed(3):'—'}</td>
             <td><button class="del-btn" data-del="${tab}_${item.id}" onclick="delEntry('${tab}',${item.id})">✕</button></td>
@@ -707,7 +703,6 @@ function renderPanel(tab) {
   }).join('');
 }
 
-// ── KEYBOARD ──────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
   if (e.key==='Escape') { closeAdd(); closeSettings(); }
   if (e.key==='Enter' && document.getElementById('addOverlay').classList.contains('open')) addEntry();
