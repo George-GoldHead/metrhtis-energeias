@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="el" data-theme="dark">
 <head>
-<meta charset="UTF-10">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Μετρητής Ενέργειας</title>
 <meta name="theme-color" content="#0d0f18">
@@ -17,7 +17,7 @@
     --text:#e2e8f0;--muted:#5a6380;--danger:#ef4444;
     --mono:'JetBrains Mono',monospace;--sans:'Poppins',sans-serif;
     --gas:#facc15;--gas-dim:rgba(250,204,21,0.15);--gas-glow:rgba(250,204,21,0.4);
-    --elec:#0e7490;--elec-dim:rgba(14,116,144,0.15);--elec-glow:rgba(14,116,144,0.4);
+    --elec:#1d4ed8;--elec-dim:rgba(29,78,216,0.15);--elec-glow:rgba(29,78,216,0.4);
     --prov:#047857;
     --modal-bg:#ffffff;--modal-text:#0f172a;--modal-border:#e2e8f0;
     --modal-muted:#64748b;--input-bg:#f8fafc;
@@ -91,7 +91,7 @@
   .stat-item:last-child{border-right:none;}
   .stat-label{font-family:var(--mono);font-size:0.52rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;}
   .stat-value{font-family:var(--mono);font-size:0.8rem;font-weight:600;}
-  .stat-value.gas{color:var(--gas);}.stat-value.elec{color:var(--elec);}.stat-value.avg{color:var(--prov);}
+  .stat-value.gas{color:var(--gas);}.stat-value.elec{color:var(--elec);}.stat-value.avg.gas{color:var(--gas);}.stat-value.avg.elec{color:var(--elec);}.stat-value.avg{color:var(--muted);}
   table{width:100%;border-collapse:collapse;}
   thead tr{border-bottom:1px solid var(--border);}
   th{font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;padding:8px 12px;text-align:left;font-weight:400;}
@@ -158,6 +158,25 @@
   .info-desc{font-size:0.78rem;color:var(--modal-muted);line-height:1.6;margin-top:4px;}
   .info-version{display:inline-block;background:var(--elec);color:#000;font-family:var(--mono);font-size:0.6rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle;}
   .empty{text-align:center;color:var(--muted);font-family:var(--mono);font-size:0.85rem;line-height:2.2;padding:60px 0;}
+
+  /* ── CHARTS OVERLAY ── */
+  .charts-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:300;overflow-y:auto;}
+  .charts-overlay.open{display:block;}
+  .charts-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10;}
+  .charts-title{font-family:var(--mono);font-size:0.85rem;letter-spacing:0.1em;color:var(--text);}
+  .charts-close{background:var(--surface);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:7px 12px;cursor:pointer;font-size:0.85rem;}
+  .charts-body{padding:16px;}
+  .chart-section{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;}
+  .chart-section-title{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .chart-tabs{display:flex;gap:6px;margin-bottom:14px;}
+  .chart-tab{font-family:var(--mono);font-size:0.65rem;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);cursor:pointer;transition:all 0.15s;}
+  .chart-tab.active.gas{border-color:var(--gas);color:var(--gas);background:var(--gas-dim);}
+  .chart-tab.active.elec{border-color:var(--elec);color:var(--elec);background:var(--elec-dim);}
+  .chart-canvas-wrap{width:100%;overflow-x:auto;}
+  canvas.chart{display:block;}
+  .custom-range{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+  .custom-range select{font-size:0.7rem;padding:6px 8px;}
+  .custom-range label{font-family:var(--mono);font-size:0.55rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;display:block;}
 </style>
 </head>
 <body>
@@ -166,6 +185,7 @@
   <div class="app-logo">⚡ ΜΕΤΡΗΤΗΣ</div>
   <div class="topbar-actions">
     <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">☀️ Light</button>
+    <button class="icon-btn" onclick="openCharts()">📊</button>
     <button class="icon-btn" onclick="exportData()">↑ Export</button>
     <label class="icon-btn" for="importFile">↓ Import</label>
     <input type="file" id="importFile" accept=".json" onchange="importData(event)">
@@ -220,6 +240,56 @@
   </div>
 </div>
 
+<div class="charts-overlay" id="chartsOverlay">
+  <div class="charts-header">
+    <div class="charts-title">📊 ΔΙΑΓΡΑΜΜΑΤΑ</div>
+    <button class="charts-close" onclick="closeCharts()">✕ Κλείσιμο</button>
+  </div>
+  <div class="charts-body">
+
+    <!-- Bar chart μηνιαία κατανάλωση -->
+    <div class="chart-section">
+      <div class="chart-section-title">
+        📊 Μηνιαία Κατανάλωση
+        <div class="chart-tabs" style="margin-bottom:0">
+          <span class="chart-tab active gas" onclick="setBarTab('gas')" id="barTab-gas">🔥 Αέριο</span>
+          <span class="chart-tab" onclick="setBarTab('elec')" id="barTab-elec">⚡ Ρεύμα</span>
+        </div>
+      </div>
+      <div class="chart-canvas-wrap"><canvas class="chart" id="barChart" height="200"></canvas></div>
+    </div>
+
+    <!-- Line chart ημερήσια κατανάλωση -->
+    <div class="chart-section">
+      <div class="chart-section-title">
+        📈 Ημερήσια Κατανάλωση
+        <div class="chart-tabs" style="margin-bottom:0">
+          <span class="chart-tab active gas" onclick="setLineTab('gas')" id="lineTab-gas">🔥 Αέριο</span>
+          <span class="chart-tab" onclick="setLineTab('elec')" id="lineTab-elec">⚡ Ρεύμα</span>
+        </div>
+      </div>
+      <div class="chart-canvas-wrap"><canvas class="chart" id="lineChart" height="200"></canvas></div>
+    </div>
+
+    <!-- Custom range σύγκριση -->
+    <div class="chart-section">
+      <div class="chart-section-title">
+        🔍 Σύγκριση Περιόδου
+        <div class="chart-tabs" style="margin-bottom:0">
+          <span class="chart-tab active gas" onclick="setCustomTab('gas')" id="customTab-gas">🔥 Αέριο</span>
+          <span class="chart-tab" onclick="setCustomTab('elec')" id="customTab-elec">⚡ Ρεύμα</span>
+        </div>
+      </div>
+      <div class="custom-range">
+        <div><label>Από</label><select id="customStart" onchange="drawCustomChart()"></select></div>
+        <div><label>Έως</label><select id="customEnd" onchange="drawCustomChart()"></select></div>
+      </div>
+      <div class="chart-canvas-wrap"><canvas class="chart" id="customChart" height="200"></canvas></div>
+    </div>
+
+  </div>
+</div>
+
 <button class="fab gas" id="fab" onclick="openAddModal()">+</button>
 
 <div class="overlay" id="addOverlay">
@@ -240,7 +310,7 @@
 <div class="overlay" id="settingsOverlay">
   <div class="modal settings-modal">
     <div class="drag-handle"></div>
-    <div class="modal-title settings">⚙ ΡΥΘΜΙΣΕΙΣ ΠΑΡΟΧΩΝ</div>
+    <div class="modal-title settings">⚙ ΠΛΗΡΟΦΟΡΙΕΣ ΠΑΡΟΧΩΝ</div>
     <div class="settings-section">
       <div class="settings-section-title">🔥 ΑΕΡΙΟ</div>
       <div class="field"><label>Όνομα Παρόχου</label><div class="input-wrap"><input type="text" id="s-gas-provider" placeholder="πχ EDA Thess"></div></div>
@@ -261,7 +331,7 @@
 <div class="overlay" id="infoOverlay">
   <div class="modal info-modal">
     <div class="drag-handle"></div>
-    <div class="modal-title info">ℹ ΠΛΗΡΟΦΟΡΙΕΣ <span class="info-version">v2.0</span></div>
+    <div class="modal-title info">ℹ ΠΛΗΡΟΦΟΡΙΕΣ </div>
     <div class="info-block">
       <div class="info-block-title">📱 Εφαρμογή</div>
       <div class="info-desc">Μετρητής κατανάλωσης αερίου (m³) και ρεύματος (kWh). Τα δεδομένα αποθηκεύονται τοπικά στη συσκευή σου.</div>
@@ -284,9 +354,11 @@
     <div class="modal-actions">
       <button class="btn-cancel btn" style="flex:1" onclick="closeInfo()">Κλείσιμο</button>
     </div>
+    <div style="text-align:center;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--modal-text);font-weight:600;letter-spacing:0.04em;">© Ταχμαζίδης Κ. Γιώργος 2026 · v2.0</div>
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 const KEY='energy_tracker_v1';
 let currentTab='gas',pendingDel=null,isDark=true;
@@ -510,7 +582,7 @@ function renderPanel(tab){
       return`<div class="month-card">
         <div class="month-head"><div class="month-name">${label}</div><div class="month-total">${mTotal} ${unit}</div></div>
         <div class="month-stats">
-          <div class="stat-item"><div class="stat-label">Μέσος</div><div class="stat-value avg">${avg}</div></div>
+          <div class="stat-item"><div class="stat-label">Μέσος</div><div class="stat-value avg ${tab}">${avg}</div></div>
           <div class="stat-item"><div class="stat-label">Max</div><div class="stat-value ${tab}">${max}</div></div>
           <div class="stat-item"><div class="stat-label">Min</div><div class="stat-value ${tab}">${min}</div></div>
         </div>
@@ -528,9 +600,152 @@ function renderPanel(tab){
 }
 
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){closeAdd();closeSettings();closeInfo();}
+  if(e.key==='Escape'){closeAdd();closeSettings();closeInfo();closeCharts();}
   if(e.key==='Enter'&&document.getElementById('addOverlay').classList.contains('open'))addEntry();
 });
+
+// ── CHARTS ──
+let barTab='gas', lineTab='gas', customTab='gas';
+let barChartInst=null, lineChartInst=null, customChartInst=null;
+
+function getCSSVar(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim();}
+
+function getColor(tab){return tab==='gas'?getCSSVar('--gas'):getCSSVar('--elec');}
+function getDim(tab){return tab==='gas'?getCSSVar('--gas-dim'):getCSSVar('--elec-dim');}
+
+function openCharts(){
+  document.getElementById('chartsOverlay').classList.add('open');
+  setTimeout(()=>{drawBarChart();drawLineChart();populateCustomSelects();drawCustomChart();},50);
+}
+function closeCharts(){document.getElementById('chartsOverlay').classList.remove('open');}
+
+function getMonthlyData(tab){
+  const sorted=[...state[tab].data].sort((a,b)=>new Date(a.d)-new Date(b.d));
+  const months={};
+  sorted.forEach((item,i)=>{
+    const mk=item.d.slice(0,7);
+    if(!months[mk])months[mk]={items:[],label:''};
+    const dt=new Date(item.d);
+    months[mk].label=dt.toLocaleString('el-GR',{month:'short'})+' '+dt.getFullYear().toString().slice(2);
+    months[mk].items.push({...item,diff:+(item.r-(i>0?sorted[i-1].r:item.r)).toFixed(3)});
+  });
+  return Object.entries(months).sort(([a],[b])=>a.localeCompare(b)).map(([mk,v])=>{
+    const diffs=v.items.map(x=>x.diff).filter(d=>d>0);
+    const total=v.items.length>1?(v.items[v.items.length-1].r-v.items[0].r).toFixed(3):'0';
+    return{label:v.label,total:parseFloat(total),avg:diffs.length?(diffs.reduce((a,b)=>a+b,0)/diffs.length).toFixed(2):0};
+  });
+}
+
+function drawBarChart(){
+  const data=getMonthlyData(barTab);
+  const color=getColor(barTab);
+  const unit=barTab==='gas'?'m³':'kWh';
+  const ctx=document.getElementById('barChart');
+  const w=Math.max(data.length*52,ctx.parentElement.clientWidth);
+  ctx.width=w;
+  if(barChartInst)barChartInst.destroy();
+  const isDarkMode=document.documentElement.getAttribute('data-theme')!=='light';
+  const gridColor=isDarkMode?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)';
+  const labelColor=isDarkMode?'#5a6380':'#94a3b8';
+  barChartInst=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:data.map(d=>d.label),
+      datasets:[{label:unit,data:data.map(d=>d.total),backgroundColor:color+'99',borderColor:color,borderWidth:1.5,borderRadius:5}]
+    },
+    options:{responsive:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>v.raw.toFixed(3)+' '+unit}}},
+      scales:{x:{ticks:{color:labelColor,font:{family:'JetBrains Mono',size:10}},grid:{color:gridColor}},
+              y:{ticks:{color:labelColor,font:{family:'JetBrains Mono',size:10}},grid:{color:gridColor}}}}
+  });
+}
+
+function drawLineChart(){
+  const tab=lineTab;
+  const sorted=[...state[tab].data].sort((a,b)=>new Date(a.d)-new Date(b.d));
+  const withDiff=sorted.map((item,i)=>({...item,diff:+(item.r-(i>0?sorted[i-1].r:item.r)).toFixed(3)})).filter(x=>x.diff>0);
+  const color=getColor(tab);
+  const unit=tab==='gas'?'m³':'kWh';
+  const ctx=document.getElementById('lineChart');
+  const w=Math.max(withDiff.length*28,ctx.parentElement.clientWidth);
+  ctx.width=w;
+  if(lineChartInst)lineChartInst.destroy();
+  const isDarkMode=document.documentElement.getAttribute('data-theme')!=='light';
+  const gridColor=isDarkMode?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)';
+  const labelColor=isDarkMode?'#5a6380':'#94a3b8';
+  lineChartInst=new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:withDiff.map(x=>{const d=new Date(x.d);return d.getDate()+'/'+(d.getMonth()+1);}),
+      datasets:[{label:unit,data:withDiff.map(x=>x.diff),borderColor:color,backgroundColor:color+'22',borderWidth:2,pointRadius:2,pointHoverRadius:5,tension:0.3,fill:true}]
+    },
+    options:{responsive:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>v.raw.toFixed(3)+' '+unit}}},
+      scales:{x:{ticks:{color:labelColor,font:{family:'JetBrains Mono',size:9},maxRotation:45},grid:{color:gridColor}},
+              y:{ticks:{color:labelColor,font:{family:'JetBrains Mono',size:10}},grid:{color:gridColor}}}}
+  });
+}
+
+function populateCustomSelects(){
+  const tab=customTab;
+  const sorted=[...state[tab].data].sort((a,b)=>new Date(a.d)-new Date(b.d));
+  const sel1=document.getElementById('customStart');
+  const sel2=document.getElementById('customEnd');
+  const old1=sel1.value,old2=sel2.value;
+  sel1.innerHTML='';sel2.innerHTML='';
+  sorted.forEach(item=>{
+    const dt=new Date(item.d);
+    const label=dt.getDate()+'/'+(dt.getMonth()+1)+'/'+(dt.getFullYear().toString().slice(2));
+    [sel1,sel2].forEach(s=>{const o=document.createElement('option');o.value=item.d;o.textContent=label+(item.p?' ●':'');s.appendChild(o);});
+  });
+  if(old1&&[...sel1.options].some(o=>o.value===old1))sel1.value=old1;
+  else if(sel1.options.length>1)sel1.selectedIndex=0;
+  if(old2&&[...sel2.options].some(o=>o.value===old2))sel2.value=old2;
+  else sel2.selectedIndex=sel2.options.length-1;
+}
+
+function drawCustomChart(){
+  const tab=customTab;
+  const start=document.getElementById('customStart').value;
+  const end=document.getElementById('customEnd').value;
+  if(!start||!end)return;
+  const sorted=[...state[tab].data].sort((a,b)=>new Date(a.d)-new Date(b.d));
+  const withDiff=sorted.map((item,i)=>({...item,diff:+(item.r-(i>0?sorted[i-1].r:item.r)).toFixed(3)}));
+  const filtered=withDiff.filter(x=>x.d>=start&&x.d<=end&&x.diff>0);
+  const color=getColor(tab);
+  const unit=tab==='gas'?'m³':'kWh';
+  const ctx=document.getElementById('customChart');
+  const w=Math.max(filtered.length*34,ctx.parentElement.clientWidth);
+  ctx.width=w;
+  if(customChartInst)customChartInst.destroy();
+  const isDarkMode=document.documentElement.getAttribute('data-theme')!=='light';
+  const gridColor=isDarkMode?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)';
+  const labelColor=isDarkMode?'#5a6380':'#94a3b8';
+  customChartInst=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:filtered.map(x=>{const d=new Date(x.d);return d.getDate()+'/'+(d.getMonth()+1);}),
+      datasets:[{label:unit,data:filtered.map(x=>x.diff),backgroundColor:color+'99',borderColor:color,borderWidth:1.5,borderRadius:4}]
+    },
+    options:{responsive:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>v.raw.toFixed(3)+' '+unit}}},
+      scales:{x:{ticks:{color:labelColor,font:{family:'JetBrains Mono',size:9},maxRotation:45},grid:{color:gridColor}},
+              y:{ticks:{color:labelColor,font:{family:'JetBrains Mono',size:10}},grid:{color:gridColor}}}}
+  });
+}
+
+function setBarTab(tab){
+  barTab=tab;
+  ['gas','elec'].forEach(t=>{const el=document.getElementById('barTab-'+t);el.className='chart-tab'+(t===tab?' active '+tab:'');});
+  drawBarChart();
+}
+function setLineTab(tab){
+  lineTab=tab;
+  ['gas','elec'].forEach(t=>{const el=document.getElementById('lineTab-'+t);el.className='chart-tab'+(t===tab?' active '+tab:'');});
+  drawLineChart();
+}
+function setCustomTab(tab){
+  customTab=tab;
+  ['gas','elec'].forEach(t=>{const el=document.getElementById('customTab-'+t);el.className='chart-tab'+(t===tab?' active '+tab:'');});
+  populateCustomSelects();drawCustomChart();
+}
 
 load();renderPanel('gas');renderPanel('elec');
 </script>
