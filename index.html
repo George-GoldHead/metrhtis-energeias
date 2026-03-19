@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="el" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -16,7 +16,7 @@
     --bg:#0d0f18;--surface:#161927;--surface2:#1e2235;--border:#2a2f4a;
     --text:#e2e8f0;--muted:#5a6380;--danger:#ef4444;
     --mono:'JetBrains Mono',monospace;--sans:'Poppins',sans-serif;
-    --gas:#facc15;--gas-dim:rgba(250,204,21,0.15);--gas-glow:rgba(250,204,21,0.4);
+    --gas:#f59e0b;--gas-dim:rgba(245,158,11,0.15);--gas-glow:rgba(245,158,11,0.4);
     --elec:#1d4ed8;--elec-dim:rgba(29,78,216,0.15);--elec-glow:rgba(29,78,216,0.4);
     --prov:#047857;
     --modal-bg:#ffffff;--modal-text:#0f172a;--modal-border:#e2e8f0;
@@ -67,7 +67,7 @@
   .period-selects{display:flex;align-items:center;gap:8px;}
   .period-selects select{flex:1;}
   select{font-family:var(--mono);font-size:0.78rem;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px 10px;cursor:pointer;outline:none;width:100%;transition:background 0.2s;}
-  select:focus{border-color:var(--prov);}
+  select:focus{border-color:var(--text);}
   .toolbar-row{display:flex;justify-content:flex-end;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
   .year-section{margin-bottom:28px;}
   .year-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
@@ -85,7 +85,8 @@
   @media(min-width:600px){.month-card{min-width:290px;max-width:290px;}}
   .month-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface2);}
   .month-name{font-family:var(--sans);font-size:0.85rem;font-weight:700;text-transform:capitalize;color:var(--text);}
-  .month-total{font-family:var(--mono);font-size:0.68rem;background:var(--surface);border:1px solid var(--border);color:var(--prov);padding:3px 9px;border-radius:20px;}
+  .month-total{font-family:var(--mono);font-size:0.68rem;background:var(--surface);border:1px solid var(--border);color:var(--gas);padding:3px 9px;border-radius:20px;}
+  #panel-elec .month-total{color:var(--elec);}
   .month-stats{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--border);}
   .stat-item{padding:8px 0;text-align:center;border-right:1px solid var(--border);}
   .stat-item:last-child{border-right:none;}
@@ -99,8 +100,10 @@
   [data-theme="light"] tbody tr{border-bottom:1px solid rgba(203,213,225,0.5);}
   tbody tr:last-child{border-bottom:none;}
   tbody tr:hover{background:var(--surface2);}
-  tbody tr.prov-row{background:rgba(52,211,153,0.06);}
-  tbody tr.prov-row td:first-child{border-left:2px solid var(--prov);padding-left:10px;}
+  tbody tr.prov-row{background:var(--gas-dim);}
+  tbody tr.prov-row td:first-child{border-left:2px solid var(--gas);padding-left:10px;}
+  #panel-elec tbody tr.prov-row{background:var(--elec-dim);}
+  #panel-elec tbody tr.prov-row td:first-child{border-left:2px solid var(--elec);}
   td{font-family:var(--mono);font-size:0.8rem;padding:7px 12px;color:var(--text);}
   .td-date{color:var(--muted);font-size:0.78rem;}
   .td-diff{font-weight:600;}
@@ -113,7 +116,7 @@
   .del-btn{background:none;border:none;color:var(--border);cursor:pointer;font-size:0.9rem;padding:4px 6px;border-radius:4px;transition:all 0.15s;}
   .del-btn:hover{color:var(--danger);background:rgba(239,68,68,0.1);}
   .fab{position:fixed;bottom:24px;right:20px;width:58px;height:58px;border-radius:50%;border:none;font-size:1.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.15s;z-index:100;}
-  .fab.gas{background:var(--gas);color:#fff;box-shadow:0 4px 24px var(--gas-glow);}
+  .fab.gas{background:var(--gas);color:#000;box-shadow:0 4px 24px var(--gas-glow);}
   .fab.elec{background:var(--elec);color:#000;box-shadow:0 4px 24px var(--elec-glow);}
   .fab:active{transform:scale(0.92);}
   .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
@@ -134,14 +137,14 @@
   .input-wrap.gas .ico{color:var(--gas);}.input-wrap.elec .ico{color:var(--elec);}
   .input-wrap .ico-date::after{content:'ΗΜ';}.input-wrap .ico-time::after{content:'ΩΡΑ';}
   input[type="date"],input[type="time"],input[type="number"],input[type="text"]{width:100%;font-family:var(--mono);font-size:1rem;background:var(--input-bg);color:var(--modal-text);border:1.5px solid var(--modal-border);border-radius:10px;padding:12px 50px 12px 14px;outline:none;transition:border-color 0.15s;-webkit-appearance:none;}
-  input:focus{border-color:var(--prov);box-shadow:0 0 0 3px rgba(52,211,153,0.12);}
+  input:focus{border-color:var(--text);box-shadow:0 0 0 3px rgba(100,116,139,0.12);}
   input[type="date"]::-webkit-calendar-picker-indicator,input[type="time"]::-webkit-calendar-picker-indicator{opacity:0;position:absolute;right:0;width:100%;cursor:pointer;}
   .checkbox-row{display:flex;align-items:center;gap:12px;padding:4px 0;}
   .checkbox-row input[type="checkbox"]{width:20px;height:20px;padding:0;accent-color:var(--prov);cursor:pointer;}
   .checkbox-row label{font-family:var(--mono);font-size:0.78rem;color:var(--modal-muted);cursor:pointer;display:flex;align-items:center;gap:6px;}
   .modal-actions{display:flex;gap:10px;margin-top:20px;}
   .modal-actions .btn{flex:1;text-align:center;font-family:var(--mono);font-size:0.8rem;padding:13px;border-radius:10px;border:1.5px solid var(--modal-border);cursor:pointer;transition:all 0.15s;}
-  .btn-save.gas{background:var(--gas);color:#fff;border-color:var(--gas);font-weight:600;}
+  .btn-save.gas{background:var(--gas);color:#000;border-color:var(--gas);font-weight:600;}
   .btn-save.elec{background:var(--elec);color:#000;border-color:var(--elec);font-weight:600;}
   .btn-save.settings{background:#0d9488;color:#fff;border-color:#0d9488;font-weight:600;}
   .btn-cancel{background:var(--input-bg);color:var(--modal-muted);border-color:var(--modal-border);}
@@ -156,7 +159,7 @@
   .info-row span:first-child{font-family:var(--mono);font-size:0.75rem;color:var(--modal-muted);}
   .info-row span:last-child{font-family:var(--mono);font-size:0.75rem;color:var(--modal-text);font-weight:600;}
   .info-desc{font-size:0.78rem;color:var(--modal-muted);line-height:1.6;margin-top:4px;}
-  .info-version{display:inline-block;background:var(--elec);color:#000;font-family:var(--mono);font-size:0.6rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle;}
+  .info-version{display:inline-block;background:var(--elec);color:#fff;font-family:var(--mono);font-size:0.6rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle;}
   .empty{text-align:center;color:var(--muted);font-family:var(--mono);font-size:0.85rem;line-height:2.2;padding:60px 0;}
 
   /* ── CHARTS OVERLAY ── */
@@ -169,7 +172,7 @@
   .chart-section{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;}
   .chart-section-title{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
   .chart-tabs{display:flex;gap:6px;margin-bottom:14px;}
-  .chart-tab{font-family:var(--mono);font-size:0.65rem;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);cursor:pointer;transition:all 0.15s;}
+  .chart-tab{font-family:var(--mono);font-size:0.78rem;padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);cursor:pointer;transition:all 0.15s;font-weight:600;}
   .chart-tab.active.gas{border-color:var(--gas);color:var(--gas);background:var(--gas-dim);}
   .chart-tab.active.elec{border-color:var(--elec);color:var(--elec);background:var(--elec-dim);}
   .chart-canvas-wrap{width:100%;overflow-x:auto;}
@@ -186,6 +189,7 @@
   <div class="topbar-actions">
     <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">☀️ Light</button>
     <button class="icon-btn" onclick="openCharts()">📊</button>
+    <button class="icon-btn" onclick="openPaste()">📋</button>
     <button class="icon-btn" onclick="exportData()">↑ Export</button>
     <label class="icon-btn" for="importFile">↓ Import</label>
     <input type="file" id="importFile" accept=".json" onchange="importData(event)">
@@ -307,6 +311,48 @@
   </div>
 </div>
 
+<div class="overlay" id="pasteOverlay">
+  <div class="modal settings-modal" style="max-height:90vh;overflow-y:auto;">
+    <div class="drag-handle"></div>
+    <div class="modal-title settings" id="pasteTitle">📋 ΕΠΙΚΟΛΛΗΣΗ EXCEL</div>
+    <div class="field">
+      <label>Επικόλλησε 2 στήλες από Excel (Ημερομηνία + Ένδειξη)</label>
+      <textarea id="pasteArea" style="width:100%;height:160px;font-family:var(--mono);font-size:0.85rem;background:var(--input-bg);color:var(--modal-text);border:1.5px solid var(--modal-border);border-radius:10px;padding:12px;outline:none;resize:none;" placeholder="πχ:&#10;1/1	4769.458&#10;2/1	4778.321&#10;3/1	4787.303"></textarea>
+    </div>
+    <div class="field" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div><label>Έτος</label><input type="number" id="pasteYear" value="2026" style="padding:10px 14px;"></div>
+      <div><label>Ώρα</label><input type="text" id="pasteTime" value="08:00" style="padding:10px 14px;" placeholder="08:00"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-save settings btn" onclick="processPaste()">Επεξεργασία →</button>
+      <button class="btn-cancel btn" onclick="closePaste()">Άκυρο</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="previewOverlay">
+  <div class="modal settings-modal" style="max-height:90vh;display:flex;flex-direction:column;padding-bottom:16px;">
+    <div class="drag-handle"></div>
+    <div class="modal-title settings">👁 ΠΡΟΕΠΙΣΚΟΠΗΣΗ <span id="previewCount" style="font-size:0.75rem;opacity:0.7"></span></div>
+    <div style="overflow-y:auto;flex:1;border:1px solid var(--modal-border);border-radius:10px;margin-bottom:14px;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead style="position:sticky;top:0;background:var(--input-bg);">
+          <tr>
+            <th style="font-family:var(--mono);font-size:0.55rem;color:var(--modal-muted);text-transform:uppercase;padding:8px 10px;text-align:left;border-bottom:1px solid var(--modal-border);">Ημ/νία</th>
+            <th style="font-family:var(--mono);font-size:0.55rem;color:var(--modal-muted);text-transform:uppercase;padding:8px 10px;text-align:right;border-bottom:1px solid var(--modal-border);">Ένδειξη</th>
+            <th style="font-family:var(--mono);font-size:0.55rem;color:var(--modal-muted);text-transform:uppercase;padding:8px 10px;text-align:center;border-bottom:1px solid var(--modal-border);">Πάρ.</th>
+          </tr>
+        </thead>
+        <tbody id="previewBody"></tbody>
+      </table>
+    </div>
+    <div class="modal-actions" style="margin-top:0;">
+      <button class="btn-save settings btn" id="previewConfirm" onclick="confirmPaste()">✓ Εισαγωγή</button>
+      <button class="btn-cancel btn" onclick="backToPaste()">← Πίσω</button>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="settingsOverlay">
   <div class="modal settings-modal">
     <div class="drag-handle"></div>
@@ -331,7 +377,7 @@
 <div class="overlay" id="infoOverlay">
   <div class="modal info-modal">
     <div class="drag-handle"></div>
-    <div class="modal-title info">ℹ ΠΛΗΡΟΦΟΡΙΕΣ </div>
+    <div class="modal-title info">ℹ ΠΛΗΡΟΦΟΡΙΕΣ <span class="info-version">v2.0</span></div>
     <div class="info-block">
       <div class="info-block-title">📱 Εφαρμογή</div>
       <div class="info-desc">Μετρητής κατανάλωσης αερίου (m³) και ρεύματος (kWh). Τα δεδομένα αποθηκεύονται τοπικά στη συσκευή σου.</div>
@@ -339,8 +385,10 @@
     <div class="info-block">
       <div class="info-block-title">💡 Οδηγίες Χρήσης</div>
       <div class="info-row"><span>➕ Νέα μέτρηση</span><span>Κουμπί "+" κάτω δεξιά</span></div>
+      <div class="info-row"><span>✎ Επεξεργασία</span><span>Κουμπί ✎ στη γραμμή</span></div>
       <div class="info-row"><span>🗑 Διαγραφή</span><span>✕ → δεύτερο πάτημα</span></div>
       <div class="info-row"><span>● Παρόχου</span><span>Τσέκαρε "Καταμέτρηση Παρόχου"</span></div>
+      <div class="info-row"><span>📋 Excel import</span><span>Κουμπί 📋 στο topbar</span></div>
       <div class="info-row"><span>📤 Backup</span><span>Export → αποθήκευση JSON</span></div>
       <div class="info-row"><span>📥 Επαναφορά</span><span>Import → επιλογή JSON</span></div>
       <div class="info-row"><span>☀️ / 🌙 Theme</span><span>Light / Dark εναλλαγή</span></div>
@@ -361,7 +409,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 const KEY='energy_tracker_v1';
-let currentTab='gas',pendingDel=null,isDark=true;
+let currentTab='gas',pendingDel=null,isDark=true,editId=null;
 let state={gas:{data:[],nextId:1},elec:{data:[],nextId:1},settings:{gas:{provider:'',meter:''},elec:{provider:'',meter:''}},theme:'dark'};
 
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
@@ -394,7 +442,12 @@ function applyTheme(theme){
   document.getElementById('themeBtn').textContent=isDark?'☀️ Light':'🌙 Dark';
   state.theme=theme;
 }
-function toggleTheme(){applyTheme(isDark?'light':'dark');save();}
+function toggleTheme(){
+  applyTheme(isDark?'light':'dark');save();
+  if(document.getElementById('chartsOverlay').classList.contains('open')){
+    setTimeout(()=>{drawBarChart();drawLineChart();drawCustomChart();},50);
+  }
+}
 
 function switchTab(tab){
   currentTab=tab;
@@ -424,29 +477,36 @@ function saveSettings(){
 function openInfo(){document.getElementById('infoOverlay').classList.add('open');}
 function closeInfo(){document.getElementById('infoOverlay').classList.remove('open');}
 
-function openAddModal(){
+function openAddModal(item=null){
   const tab=currentTab;
+  editId=item?item.id:null;
   const now=new Date(),pad=n=>String(n).padStart(2,'0');
-  document.getElementById('mDate').value=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
-  document.getElementById('mTime').value=`${pad(now.getHours())}:${pad(now.getMinutes())}`;
-  document.getElementById('mRead').value='';
-  document.getElementById('mProvider').checked=false;
+  document.getElementById('mDate').value=item?item.d:`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+  document.getElementById('mTime').value=item?(item.t||'08:00'):`${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  document.getElementById('mRead').value=item?item.r:'';
+  document.getElementById('mProvider').checked=item?item.p:false;
   const isGas=tab==='gas';
   document.getElementById('addModalTitle').className='modal-title '+tab;
-  document.getElementById('addModalTitle').textContent=isGas?'🔥 ΝΕΑ ΜΕΤΡΗΣΗ':'⚡ ΝΕΑ ΜΕΤΡΗΣΗ';
+  document.getElementById('addModalTitle').textContent=item?(isGas?'✎ ΕΠΕΞΕΡΓΑΣΙΑ ΑΕΡΙΟ':'✎ ΕΠΕΞΕΡΓΑΣΙΑ ΡΕΥΜΑ'):(isGas?'🔥 ΝΕΑ ΜΕΤΡΗΣΗ':'⚡ ΝΕΑ ΜΕΤΡΗΣΗ');
   ['dateWrap','timeWrap','readWrap'].forEach(id=>document.getElementById(id).className='input-wrap '+tab);
   document.getElementById('readingLabel').textContent=isGas?'Ένδειξη Μετρητή (m³)':'Ένδειξη Μετρητή (kWh)';
   document.getElementById('readIco').textContent=isGas?'🔥':'⚡';
   document.getElementById('mRead').placeholder=isGas?'πχ 5004.584':'πχ 12345.6';
   document.getElementById('btnSave').className='btn-save btn '+tab;
+  document.getElementById('btnSave').textContent=item?'Ενημέρωση':'Αποθήκευση';
   document.querySelector('#addOverlay .modal').className='modal '+(tab==='gas'?'gas-modal':'elec-modal');
   document.getElementById('addOverlay').classList.add('open');
   setTimeout(()=>document.getElementById('mRead').focus(),300);
 }
-function closeAdd(){document.getElementById('addOverlay').classList.remove('open');}
+function closeAdd(){document.getElementById('addOverlay').classList.remove('open');editId=null;}
 
-['addOverlay','settingsOverlay','infoOverlay'].forEach(id=>{
-  document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id){closeAdd();closeSettings();closeInfo();}});
+function editEntry(tab,id){
+  const item=state[tab].data.find(x=>x.id===id);
+  if(item)openAddModal(item);
+}
+
+['addOverlay','settingsOverlay','infoOverlay','pasteOverlay','previewOverlay'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id){closeAdd();closeSettings();closeInfo();closePaste();}});
 });
 
 function addEntry(){
@@ -456,7 +516,12 @@ function addEntry(){
   const r=parseFloat(document.getElementById('mRead').value.replace(',','.'));
   const p=document.getElementById('mProvider').checked;
   if(!d||isNaN(r)){document.getElementById('mRead').focus();return;}
-  state[tab].data.push({id:state[tab].nextId++,d,t,r,p});
+  if(editId!==null){
+    const idx=state[tab].data.findIndex(x=>x.id===editId);
+    if(idx>=0)state[tab].data[idx]={...state[tab].data[idx],d,t,r,p};
+  }else{
+    state[tab].data.push({id:state[tab].nextId++,d,t,r,p});
+  }
   save();closeAdd();renderPanel(tab);
 }
 
@@ -576,7 +641,7 @@ function renderPanel(tab){
           ${showTime[tab]?`<td style="color:var(--prov);font-size:0.72rem">${item.t||'—'}</td>`:''}
           <td>${item.r.toFixed(3)}</td>
           <td class="td-diff ${tab} ${item.diff<=0?'zero':''}">${item.diff>0?item.diff.toFixed(3):'—'}</td>
-          <td><button class="del-btn" data-del="${tab}_${item.id}" onclick="delEntry('${tab}',${item.id})">✕</button></td>
+          <td><button class="del-btn" data-del="${tab}_${item.id}" onclick="editEntry('${tab}',${item.id})" style="margin-right:2px;" title="Επεξεργασία">✎</button><button class="del-btn" data-del="${tab}_${item.id}" onclick="delEntry('${tab}',${item.id})">✕</button></td>
         </tr>`;
       }).join('');
       return`<div class="month-card">
@@ -600,7 +665,7 @@ function renderPanel(tab){
 }
 
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){closeAdd();closeSettings();closeInfo();closeCharts();}
+  if(e.key==='Escape'){closeAdd();closeSettings();closeInfo();closeCharts();closePaste();}
   if(e.key==='Enter'&&document.getElementById('addOverlay').classList.contains('open'))addEntry();
 });
 
@@ -615,6 +680,13 @@ function getDim(tab){return tab==='gas'?getCSSVar('--gas-dim'):getCSSVar('--elec
 
 function openCharts(){
   document.getElementById('chartsOverlay').classList.add('open');
+  // Ξεκίνα από το τρέχον tab
+  barTab=currentTab; lineTab=currentTab; customTab=currentTab;
+  ['gas','elec'].forEach(t=>{
+    document.getElementById('barTab-'+t).className='chart-tab'+(t===currentTab?' active '+currentTab:'');
+    document.getElementById('lineTab-'+t).className='chart-tab'+(t===currentTab?' active '+currentTab:'');
+    document.getElementById('customTab-'+t).className='chart-tab'+(t===currentTab?' active '+currentTab:'');
+  });
   setTimeout(()=>{drawBarChart();drawLineChart();populateCustomSelects();drawCustomChart();},50);
 }
 function closeCharts(){document.getElementById('chartsOverlay').classList.remove('open');}
@@ -745,6 +817,72 @@ function setCustomTab(tab){
   customTab=tab;
   ['gas','elec'].forEach(t=>{const el=document.getElementById('customTab-'+t);el.className='chart-tab'+(t===tab?' active '+tab:'');});
   populateCustomSelects();drawCustomChart();
+}
+
+// ── PASTE FROM EXCEL ──
+let pastePreviewData=[];
+
+function openPaste(){
+  const tab=currentTab;
+  document.getElementById('pasteTitle').textContent='📋 ΕΠΙΚΟΛΛΗΣΗ '+(tab==='gas'?'ΑΕΡΙΟΥ':'ΡΕΥΜΑΤΟΣ');
+  document.getElementById('pasteYear').value=new Date().getFullYear();
+  document.getElementById('pasteArea').value='';
+  document.getElementById('pasteOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('pasteArea').focus(),300);
+}
+function closePaste(){
+  document.getElementById('pasteOverlay').classList.remove('open');
+  document.getElementById('previewOverlay').classList.remove('open');
+  pastePreviewData=[];
+}
+function backToPaste(){
+  document.getElementById('previewOverlay').classList.remove('open');
+  document.getElementById('pasteOverlay').classList.add('open');
+}
+
+function processPaste(){
+  const text=document.getElementById('pasteArea').value.trim();
+  const year=parseInt(document.getElementById('pasteYear').value)||new Date().getFullYear();
+  const time=document.getElementById('pasteTime').value||'08:00';
+  if(!text){alert('Επικόλλησε κάτι πρώτα!');return;}
+  const lines=text.split('\n').filter(l=>l.trim());
+  const parsed=[];
+  lines.forEach(line=>{
+    const cols=line.split('\t');
+    const rawDate=(cols[0]||'').trim();
+    const rawReading=(cols[1]||'').trim().replace(',','.');
+    if(rawDate&&rawDate.includes('/')&&rawReading&&!isNaN(parseFloat(rawReading))){
+      const parts=rawDate.split('/');
+      const d=parts[0].padStart(2,'0');
+      const m=parts[1].padStart(2,'0');
+      parsed.push({date:`${year}-${m}-${d}`,r:parseFloat(rawReading),t:time,p:false,rawDate,rawReading});
+    }
+  });
+  if(!parsed.length){alert('Δεν βρέθηκαν δεδομένα.\nΒεβαιώσου ότι επικόλλησες 2 στήλες: Ημερομηνία (πχ 1/2) και Ένδειξη (πχ 4778.321)');return;}
+  pastePreviewData=parsed;
+  // Build preview table
+  const tbody=document.getElementById('previewBody');
+  tbody.innerHTML=parsed.map((row,i)=>`
+    <tr style="border-bottom:1px solid var(--modal-border);">
+      <td style="font-family:var(--mono);font-size:0.75rem;padding:6px 10px;color:var(--modal-text);">${row.rawDate}/${String(year).slice(2)}</td>
+      <td style="font-family:var(--mono);font-size:0.75rem;padding:6px 10px;text-align:right;color:var(--gas);font-weight:600;">${row.rawReading}</td>
+      <td style="padding:6px 10px;text-align:center;"><input type="checkbox" ${row.p?'checked':''} onchange="pastePreviewData[${i}].p=this.checked" style="width:16px;height:16px;accent-color:var(--prov);cursor:pointer;"></td>
+    </tr>`).join('');
+  document.getElementById('previewCount').textContent=`(${parsed.length} εγγραφές)`;
+  document.getElementById('pasteOverlay').classList.remove('open');
+  document.getElementById('previewOverlay').classList.add('open');
+}
+
+function confirmPaste(){
+  const tab=currentTab;
+  let added=0,skipped=0;
+  pastePreviewData.forEach(row=>{
+    const exists=state[tab].data.some(x=>x.d===row.date&&Math.abs(x.r-row.r)<0.001);
+    if(!exists){state[tab].data.push({id:state[tab].nextId++,d:row.date,t:row.t,r:row.r,p:row.p});added++;}
+    else skipped++;
+  });
+  save();renderPanel(tab);closePaste();
+  alert(`✓ Εισήχθησαν ${added} εγγραφές${skipped>0?` (${skipped} παραλείφθηκαν ως διπλότυπα)`:''}.`);
 }
 
 load();renderPanel('gas');renderPanel('elec');
