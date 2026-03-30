@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="el" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -671,9 +671,13 @@ function renderPanel(tab){
   const now=new Date(),curYr=now.getFullYear();
   const beforeEnd=withDiff.filter(x=>new Date(x.d+'T'+(x.t||'08:00'))<=endDT);
   const beforeStart=withDiff.filter(x=>new Date(x.d+'T'+(x.t||'08:00'))<=startDT);
-  const sumProvider=(beforeEnd.length&&beforeStart.length)?+(beforeEnd[beforeEnd.length-1].r-beforeStart[beforeStart.length-1].r).toFixed(3):0;
+  const periodItems=withDiff.filter(x=>{
+    const dt=new Date(x.d+'T'+(x.t||'08:00'));
+    return dt>new Date(selStart.value)&&dt<=endDT;
+  });
+  const sumProvider=+periodItems.map(x=>x.diff).filter(d=>d>0).reduce((a,b)=>a+b,0).toFixed(3);
   const curYearItems=withDiff.filter(x=>new Date(x.d).getFullYear()===curYr);
-  const sumYear=curYearItems.length>1?+(curYearItems[curYearItems.length-1].r-curYearItems[0].r).toFixed(3):0;
+  const sumYear=+curYearItems.map(x=>x.diff).filter(d=>d>0).reduce((a,b)=>a+b,0).toFixed(3);
   document.getElementById(tab+'-sumProvider').textContent=sumProvider.toFixed(3)+' '+unit;
   const ps=selStart.options[selStart.selectedIndex]?.textContent.replace(' ●','')||'—';
   const pe=selEnd.options[selEnd.selectedIndex]?.textContent.replace(' ●','')||'—';
@@ -686,11 +690,11 @@ function renderPanel(tab){
   app.innerHTML=yearKeys.map(yr=>{
     const monthKeys=Object.keys(years[yr]).sort();
     const yrItems=Object.values(years[yr]).flatMap(m=>m.items).sort((a,b)=>new Date(a.d)-new Date(b.d));
-    const yearTotal=yrItems.length>1?(yrItems[yrItems.length-1].r-yrItems[0].r).toFixed(3):'0.000';
+    const yearTotal=yrItems.map(x=>x.diff).filter(d=>d>0).reduce((a,b)=>a+b,0).toFixed(3);
     const monthsHTML='<div class="months-row">'+monthKeys.map(mk=>{
       const{label,items}=years[yr][mk];
       const diffs=items.map(x=>x.diff).filter(d=>d>0);
-      const mTotal=items.length>1?(items[items.length-1].r-items[0].r).toFixed(3):(items[0]?.diff||0).toFixed(3);
+      const mTotal=diffs.reduce((a,b)=>a+b,0).toFixed(3);
       const avg=diffs.length?(diffs.reduce((a,b)=>a+b,0)/diffs.length).toFixed(2):'—';
       const max=diffs.length?Math.max(...diffs).toFixed(3):'—';
       const min=diffs.length?Math.min(...diffs).toFixed(3):'—';
